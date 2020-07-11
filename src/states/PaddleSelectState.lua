@@ -53,7 +53,10 @@ function PaddleSelectState:update(dt)
             highScores = self.highScores,
             level = 32,
             recoverPoints = 5000,
-            powersActive = {}
+            powersActive = {
+                multiball = false,
+                unlock = false
+            }
         })
     end
 

@@ -20,3 +20,7 @@ VIRTUAL_HEIGHT = 243
 
 -- paddle movement speed
 PADDLE_SPEED = 200
+
+-- ids for different power ups
+MULTIBALL_ID = 1
+UNLOCK_ID = 2

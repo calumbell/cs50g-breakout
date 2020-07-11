@@ -39,6 +39,9 @@ function Powerup:update(dt)
 	-- Update coordinates using velocities, scaled by delta time
 	self.x = self.x + self.dx * dt
 	self.y = self.y + self.dy * dt
+
+	self.dx = self.dx + 2.0 * dt
+	self.dy = self.dy + 2.0 * dt
 end
 
 
@@ -46,6 +49,15 @@ function Powerup:render()
 	love.graphics.draw(gTextures['main'], gFrames['powerups'][self.id], self.x, self.y)
 end
 
+function Powerup:getType()
+	if self.id == MULTIBALL_ID then
+		return 'multiball'
+	elseif self.id == UNLOCK_ID then
+		return 'unlock'
+	else
+		return false
+	end
+end
 
 function Powerup:isAtBottom()
 	-- If the powerup touches the bottom of the screen, return true
