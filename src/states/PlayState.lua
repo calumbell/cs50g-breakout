@@ -56,6 +56,10 @@ function PlayState:update(dt)
     self.paddle:update(dt)
     self.ball:update(dt)
 
+    for k, pu in pairs(self.powerups) do
+       pu:update(dt)
+    end
+
     if self.ball:collides(self.paddle) then
         -- raise ball above paddle in case it goes below it, then reverse dy
         self.ball.y = self.paddle.y - 8
@@ -114,6 +118,11 @@ function PlayState:update(dt)
                     ball = self.ball,
                     recoverPoints = self.recoverPoints
                 })
+            end
+
+            -- Maybe spawn a multi-ball powerup
+            if math.random(10) == 1 and self.powerups['multiball'] == nil then
+                self.powerups['multiball'] = Powerup(self.ball.x, self.ball.y, 1)
             end
 
             --
@@ -214,6 +223,12 @@ function PlayState:render()
 
     self.paddle:render()
     self.ball:render()
+
+
+    for k, pu in pairs(self.powerups) do
+       pu:render()
+    end
+
 
     renderScore(self.score)
     renderHealth(self.health)

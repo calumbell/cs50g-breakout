@@ -1,6 +1,6 @@
 Powerup = Class {}
 
-function Powerup:init(id, x, y)
+function Powerup:init(x, y, id)
 
 	-- Simple positional + dimensional variables	
 	self.width = 16
@@ -8,7 +8,7 @@ function Powerup:init(id, x, y)
 	self.x = x
 	self.y = y
 	self.dx = 0
-	self.dy = 0
+	self.dy = 25
 
 	-- What kind of powerup is instance
 	-- 1: triple ball
@@ -38,13 +38,14 @@ end
 function Powerup:update(dt)
 	-- Update coordinates using velocities, scaled by delta time
 	self.x = self.x + self.dx * dt
-	self.y = self.y + self.dx * dt
+	self.y = self.y + self.dy * dt
 end
 
 
 function Powerup:render()
 	love.graphics.draw(gTextures['main'], gFrames['powerups'][self.id], self.x, self.y)
 end
+
 
 function Powerup:isAtBottom()
 	-- If the powerup touches the bottom of the screen, return true
