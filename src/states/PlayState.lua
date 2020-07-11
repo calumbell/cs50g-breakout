@@ -28,8 +28,10 @@ function PlayState:enter(params)
     self.highScores = params.highScores
     self.ball = params.ball
     self.level = params.level
-
     self.recoverPoints = 5000
+    self.powersActive = params.powersActive
+    self.powerups = {}   -- powerup collectables do not persist between states
+
 
     -- give ball random starting velocity
     self.ball.dx = math.random(-200, 200)
@@ -182,7 +184,9 @@ function PlayState:update(dt)
                 score = self.score,
                 highScores = self.highScores,
                 level = self.level,
-                recoverPoints = self.recoverPoints
+                recoverPoints = self.recoverPoints,
+                powersActive = self.powersActive
+
             })
         end
     end

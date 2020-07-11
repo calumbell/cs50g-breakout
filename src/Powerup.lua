@@ -7,9 +7,12 @@ function Powerup:init(id, x, y)
 	self.height = 16
 	self.x = x
 	self.y = y
+	self.dx = 0
+	self.dy = 0
 
 	-- What kind of powerup is instance
 	-- 1: triple ball
+	-- 2: key
 	self.id = id
 
 end
@@ -32,6 +35,23 @@ function Powerup:collides(target)
 	return true
 end
 
+function Powerup:update(dt)
+	-- Update coordinates using velocities, scaled by delta time
+	self.x = self.x + self.dx * dt
+	self.y = self.y + self.dx * dt
+end
+
+
 function Powerup:render()
 	love.graphics.draw(gTextures['main'], gFrames['powerups'][self.id], self.x, self.y)
+end
+
+function Powerup:isAtBottom()
+	-- If the powerup touches the bottom of the screen, return true
+	if self.y + self.width >= VIRTUAL_HEIGHT then
+		return true
+	end
+
+	-- If it isn't, return false
+	return false
 end
