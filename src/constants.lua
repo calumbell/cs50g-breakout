@@ -24,3 +24,5 @@ PADDLE_SPEED = 200
 -- ids for different power ups
 MULTIBALL_ID = 1
 UNLOCK_ID = 2
+
+MULTIBALL_N = 3

@@ -28,15 +28,26 @@ function ServeState:enter(params)
     self.powersActive = params.powersActive
 
     -- init new ball (random color for fun)
-    self.ball = Ball()
-    self.ball.skin = math.random(7)
+    self.balls = {}
+
+    if self.powersActive['multiball'] then
+        for i = 1, MULTIBALL_N, 1 do
+            self.balls[i] = Ball()
+        end
+    else
+        self.balls[1] = Ball()
+    end
+
 end
 
 function ServeState:update(dt)
     -- have the ball track the player
     self.paddle:update(dt)
-    self.ball.x = self.paddle.x + (self.paddle.width / 2) - 4
-    self.ball.y = self.paddle.y - 8
+
+    for k, ball in pairs(self.balls) do
+        ball.x = self.paddle.x + (self.paddle.width / 2) - 4
+        ball.y = self.paddle.y - 8
+    end
 
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
         -- pass in all important state info to the PlayState
@@ -46,7 +57,7 @@ function ServeState:update(dt)
             health = self.health,
             score = self.score,
             highScores = self.highScores,
-            ball = self.ball,
+            balls = self.balls,
             level = self.level,
             recoverPoints = self.recoverPoints,
             powersActive = self.powersActive
@@ -60,7 +71,10 @@ end
 
 function ServeState:render()
     self.paddle:render()
-    self.ball:render()
+
+    for k, ball in pairs(self.balls) do
+        ball:render()
+    end
 
     for k, brick in pairs(self.bricks) do
         brick:render()
