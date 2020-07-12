@@ -98,55 +98,64 @@ function PlayState:update(dt)
             -- only check collision if we're in play
             if brick.inPlay and ball:collides(brick) then
 
-                -- add to score
-                self.score = self.score + (brick.tier * 200 + brick.color * 25)
 
-                -- decrement recoverPoints if we aren't at max paddle size or health
-                if self.paddle.size < 4 or self.health < 3 then
-                    self.recoverPoints = self.recoverPoints - (brick.tier * 200 + brick.color * 25)
-                end
+                -- make sure brick isn't locked before removing it, awarding points, etc.
+                if brick.locked == false then
+                    -- add to score
+                    self.score = self.score + (brick.tier * 200 + brick.color * 25)
 
-                -- trigger the brick's hit function, which removes it from play
-                brick:hit()
-
-                -- if we have accumulated enough points..
-                if self.recoverPoints <= 0 then
-
-                    -- ..and our health is less than 3, recover
-                    if self.health < 3 then
-                        -- can't go above 3 health
-                        self.health = math.min(3, self.health + 1)
+                    -- decrement recoverPoints if we aren't at max paddle size or health
+                    if self.paddle.size < 4 or self.health < 3 then
+                        self.recoverPoints = self.recoverPoints - (brick.tier * 200 + brick.color * 25)
                     end
 
-                    -- .. and our size is less than 4, grow
-                    if self.paddle.size < 4 then
-                        self.paddle:grow()
+                    -- trigger the brick's hit function, which removes it from play
+                    brick:hit()
+
+                    -- if we have accumulated enough points..
+                    if self.recoverPoints <= 0 then
+
+                        -- ..and our health is less than 3, recover
+                        if self.health < 3 then
+                            -- can't go above 3 health
+                            self.health = math.min(3, self.health + 1)
+                        end
+
+                        -- .. and our size is less than 4, grow
+                        if self.paddle.size < 4 then
+                            self.paddle:grow()
+                        end
+
+                        -- reset recoverPoints
+                        self.recoverPoints = POINTS_TO_RECOVER
+
+                        -- play recover sound effect
+                        gSounds['recover']:play()
                     end
 
-                    -- reset recoverPoints
-                    self.recoverPoints = POINTS_TO_RECOVER
+                    -- go to our victory screen if there are no more bricks left
+                    if self:checkVictory() then
+                        gSounds['victory']:play()
 
-                    -- play recover sound effect
-                    gSounds['recover']:play()
+                        gStateMachine:change('victory', {
+                            level = self.level,
+                            paddle = self.paddle,
+                            health = self.health,
+                            score = self.score,
+                            highScores = self.highScores,
+                            balls = self.balls,
+                            recoverPoints = self.recoverPoints
+                        })
+                    end
+
+                elseif brick.locked and self.powerups['unlock'] then
+                    brick.inPlay = false
+                    self.score = self.score + 2000
                 end
 
-                -- go to our victory screen if there are no more bricks left
-                if self:checkVictory() then
-                    gSounds['victory']:play()
 
-                    gStateMachine:change('victory', {
-                        level = self.level,
-                        paddle = self.paddle,
-                        health = self.health,
-                        score = self.score,
-                        highScores = self.highScores,
-                        balls = self.balls,
-                        recoverPoints = self.recoverPoints
-                    })
-                end
-
-                -- Maybe spawn a multi-ball powerup
-                if math.random(2) == 1 and self.powerups['multiball'] == nil and self.powersActive['multiball'] == false then
+                -- Maybe spawn a powerup
+                if math.random(10) == 1 and self.powerups['multiball'] == nil and self.powersActive['multiball'] == false then
                     self.powerups['multiball'] = Powerup(ball.x, ball.y, 1)
                 end
 

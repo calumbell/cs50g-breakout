@@ -95,21 +95,28 @@ function Ball:render()
         self.x, self.y)
 end
 
+
+
+
 function Ball:randomiseVelocity()
     self.dx = math.random(-200, 200)
     self.dy = math.random(-50, -60)
 end
 
- -- collision code for bricks
-function Ball:handleBrickBounce(brick)
-    -- we check to see if the opposite side of our velocity is outside of the brick;
-    -- if it is, we trigger a collision on that side. else we're within the X + width of
-    -- the brick and should check to see if the top or bottom edge is outside of the brick,
-    -- colliding on the top or bottom accordingly 
-    --
 
-    -- left edge; only check if we're moving right, and offset the check by a couple of pixels
-    -- so that flush corner hits register as Y flips, not X flips
+
+ --[[ collision code for bricks
+    we check to see if the opposite side of our velocity is outside of the brick;
+    if it is, we trigger a collision on that side. else we're within the X + width of
+    the brick and should check to see if the top or bottom edge is outside of the brick,
+    colliding on the top or bottom accordingly 
+
+    left edge; only check if we're moving right, and offset the check by a couple of pixels
+    so that flush corner hits register as Y flips, not X flips
+    ]]
+    
+function Ball:handleBrickBounce(brick)
+
     if self.x + 2 < brick.x and self.dx > 0 then
         
         -- flip x velocity and reset position outside of brick
