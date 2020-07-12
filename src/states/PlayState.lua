@@ -28,7 +28,7 @@ function PlayState:enter(params)
     self.highScores = params.highScores
     self.balls = params.balls
     self.level = params.level
-    self.recoverPoints = 5000
+    self.recoverPoints = self.score + 5000
     self.powersActive = params.powersActive
     self.powerups = {}   -- powerup collectables do not persist between states
 
@@ -102,12 +102,12 @@ function PlayState:update(dt)
                 brick:hit()
 
                 -- if we have enough points, recover a point of health
-                if self.score > self.recoverPoints then
+                if self.score > self.recoverPoints  and self.health ~= 3 then
                     -- can't go above 3 health
                     self.health = math.min(3, self.health + 1)
 
                     -- multiply recover points by 2
-                    self.recoverPoints = math.min(100000, self.recoverPoints * 2)
+                    self.recoverPoints = self.recoverPoints * 2
 
                     -- play recover sound effect
                     gSounds['recover']:play()
