@@ -203,7 +203,10 @@ function PlayState:update(dt)
     for k, ball in pairs(self.balls) do
         -- if ball goes below bounds, revert to serve state and decrease health
         if ball.y >= VIRTUAL_HEIGHT then
+
+            -- update health and paddle size
             self.health = self.health - 1
+            self.paddle:shrink()
             gSounds['hurt']:play()
 
             if self.health == 0 then
@@ -266,7 +269,7 @@ function PlayState:render()
     if self.health < 3 then
         renderHint(self.recoverPoints - self.score)
     end
-    
+
     -- pause text, if paused
     if self.paused then
         love.graphics.setFont(gFonts['large'])
