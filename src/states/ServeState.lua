@@ -32,10 +32,10 @@ function ServeState:enter(params)
 
     if self.powersActive['multiball'] then
         for i = 1, MULTIBALL_N, 1 do
-            self.balls[i] = Ball()
+            self.balls[i] = Ball(self.paddle.x + (self.paddle.width / 2) - 4, self.paddle.y - 8)
         end
     else
-        self.balls[1] = Ball()
+        self.balls[1] = Ball(self.paddle.x + (self.paddle.width / 2) - 4, self.paddle.y - 8)
     end
 
 end

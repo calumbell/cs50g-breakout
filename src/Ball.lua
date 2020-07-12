@@ -15,10 +15,13 @@
 
 Ball = Class{}
 
-function Ball:init(skin)
+function Ball:init(x, y)
     -- simple positional and dimensional variables
     self.width = 8
     self.height = 8
+    self.x = x
+    self.y = y
+
 
     -- these variables are for keeping track of our velocity on both the
     -- X and Y axis, since the ball can move in two dimensions
@@ -91,3 +94,9 @@ function Ball:render()
     love.graphics.draw(gTextures['main'], gFrames['balls'][self.skin],
         self.x, self.y)
 end
+
+function Ball:randomiseVelocity()
+    self.dx = math.random(-200, 200)
+    self.dy = math.random(-50, -60)
+end
+

@@ -35,8 +35,7 @@ function PlayState:enter(params)
 
     -- give ball random starting velocity
     for k, ball in pairs(self.balls) do
-        ball.dx = math.random(-200, 200)
-        ball.dy = math.random(-50, -60)
+        ball:randomiseVelocity()
     end
 end
 
@@ -90,17 +89,6 @@ function PlayState:update(dt)
         end
     end
 
-    -- detect powerup/paddle collisions
-    for k, pu in pairs(self.powerups) do
-        if pu:collides(self.paddle) then
-            -- activate power and set flag
-            self.powersActive[pu:getType()] = true
-            gSounds['powerup']:play()
-            self.powerups[pu:getType()] = nil
-        end
-    end
-
-
     for k, ball in pairs(self.balls) do
         -- detect collision across all bricks with the ball
         for k, brick in pairs(self.bricks) do
@@ -142,7 +130,7 @@ function PlayState:update(dt)
                 end
 
                 -- Maybe spawn a multi-ball powerup
-                if math.random(10) == 1 and self.powerups['multiball'] == nil and self.powersActive['multiball'] == false then
+                if math.random(2) == 1 and self.powerups['multiball'] == nil and self.powersActive['multiball'] == false then
                     self.powerups['multiball'] = Powerup(ball.x, ball.y, 1)
                 end
 
@@ -193,6 +181,22 @@ function PlayState:update(dt)
 
                 -- only allow colliding with one brick, for corners
                 break
+            end
+        end
+    end
+
+    -- detect powerup/paddle collisions
+    for k, pu in pairs(self.powerups) do
+        if pu:collides(self.paddle) then
+
+            -- activate power and set flag
+            self.powersActive[pu:getType()] = true
+            gSounds['powerup']:play()
+            self.powerups[pu:getType()] = nil
+
+            for i = 2, MULTIBALL_N, 1 do
+                self.balls[i] = Ball(self.balls[1].x, self.balls[1].y)
+                self.balls[i]:randomiseVelocity()
             end
         end
     end
