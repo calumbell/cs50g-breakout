@@ -71,7 +71,39 @@ end
     Render the paddle by drawing the main texture, passing in the quad
     that corresponds to the proper skin and size.
 ]]
+
 function Paddle:render()
     love.graphics.draw(gTextures['main'], gFrames['paddles'][self.size + 4 * (self.skin - 1)],
         self.x, self.y)
+end
+
+--[[
+    Grow 
+]]
+function Paddle:grow()
+    -- if our paddle is already at max size, return
+    if self.size == MAX_PADDLE_SIZE then
+        return
+    end
+
+    -- incremenet size and update width
+    self.size = self.size + 1
+    self.width = 32 * self.size
+
+    -- recenter paddle by offseting by half the amount grown
+    self.x = self.x - 16
+end
+
+function Paddle:shrink()
+    -- if our paddle is already at min size, return
+    if self.size == 1 then
+        return
+    end
+
+    -- decremenet size and update width
+    self.size = self.size - 1
+    self.width = 32 * self.size
+
+    -- recenter paddle by offseting by half the amount grown
+    self.x = self.x + 16 
 end

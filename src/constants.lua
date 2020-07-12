@@ -25,4 +25,8 @@ PADDLE_SPEED = 200
 MULTIBALL_ID = 1
 UNLOCK_ID = 2
 
+-- how many balls to spawn when during multiball mode
 MULTIBALL_N = 3
+
+-- 
+MAX_PADDLE_SIZE = 4

@@ -32,7 +32,6 @@ function PlayState:enter(params)
     self.powersActive = params.powersActive
     self.powerups = {}   -- powerup collectables do not persist between states
 
-
     -- give ball random starting velocity
     for k, ball in pairs(self.balls) do
         ball:randomiseVelocity()
