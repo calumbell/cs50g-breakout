@@ -28,7 +28,7 @@ function PlayState:enter(params)
     self.highScores = params.highScores
     self.balls = params.balls
     self.level = params.level
-    self.recoverPoints = self.score + 5000
+    self.recoverPoints = params.recoverPoints
     self.powersActive = params.powersActive
     self.powerups = {}   -- powerup collectables do not persist between states
 
@@ -98,16 +98,30 @@ function PlayState:update(dt)
                 -- add to score
                 self.score = self.score + (brick.tier * 200 + brick.color * 25)
 
+                -- decrement recoverPoints if we aren't at max paddle size or health
+                if self.paddle.size < 4 or self.health < 3 then
+                    self.recoverPoints = self.recoverPoints - (brick.tier * 200 + brick.color * 25)
+                end
+
                 -- trigger the brick's hit function, which removes it from play
                 brick:hit()
 
-                -- if we have enough points, recover a point of health
-                if self.score > self.recoverPoints  and self.health ~= 3 then
-                    -- can't go above 3 health
-                    self.health = math.min(3, self.health + 1)
+                -- if we have accumulated enough points..
+                if self.recoverPoints <= 0 then
 
-                    -- multiply recover points by 2
-                    self.recoverPoints = self.recoverPoints * 2
+                    -- ..and our health is less than 3, recover
+                    if self.health < 3 then
+                        -- can't go above 3 health
+                        self.health = math.min(3, self.health + 1)
+                    end
+
+                    -- .. and our size is less than 4, grow
+                    if self.paddle.size < 4 then
+                        self.paddle:grow()
+                    end
+
+                    -- reset recoverPoints
+                    self.recoverPoints = POINTS_TO_RECOVER
 
                     -- play recover sound effect
                     gSounds['recover']:play()
@@ -266,8 +280,9 @@ function PlayState:render()
 
     renderScore(self.score)
     renderHealth(self.health)
-    if self.health < 3 then
-        renderHint(self.recoverPoints - self.score)
+
+    if self.health < 3 or self.paddle.size < 4 then
+        renderHint(self.recoverPoints)
     end
 
     -- pause text, if paused

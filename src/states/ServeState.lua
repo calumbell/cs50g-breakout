@@ -83,6 +83,11 @@ function ServeState:render()
     renderScore(self.score)
     renderHealth(self.health)
 
+    if self.health < 3 or self.paddle.size < 4 then
+        renderHint(self.recoverPoints)
+    end
+
+    love.graphics.setColor(255, 255, 255, 255)
     love.graphics.setFont(gFonts['large'])
     love.graphics.printf('Level ' .. tostring(self.level), 0, VIRTUAL_HEIGHT / 3,
         VIRTUAL_WIDTH, 'center')
