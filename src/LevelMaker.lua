@@ -119,6 +119,9 @@ function LevelMaker.createMap(level)
         end
     end 
 
+    -- lock the brick in the middle at the top
+    bricks[math.ceil(numCols/2)].locked = true
+
     -- in the event we didn't generate any bricks, try again
     if #bricks == 0 then
         return self.createMap(level)
