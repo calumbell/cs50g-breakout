@@ -61,7 +61,10 @@ function PlayState:update(dt)
 
     -- update all pickup positions based on velocity
     for k, pu in pairs(self.powerups) do
-       pu:update(dt)
+        pu:update(dt)
+        if pu:isAtBottom() then
+            self.powerups[k] = nil
+        end
     end
 
     for k, ball in pairs(self.balls) do    
