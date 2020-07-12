@@ -23,7 +23,7 @@ PADDLE_SPEED = 200
 
 -- ids for different power ups
 MULTIBALL_ID = 1
-UNLOCK_ID = 2
+UNLOCK_ID = 10
 
 -- how many balls to spawn when during multiball mode
 MULTIBALL_N = 3

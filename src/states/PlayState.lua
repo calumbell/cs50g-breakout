@@ -148,7 +148,7 @@ function PlayState:update(dt)
                         })
                     end
 
-                elseif brick.locked and self.powerups['unlock'] then
+                elseif brick.locked and self.powersActive['unlock'] then
                     brick.inPlay = false
                     self.score = self.score + 2000
                 end
@@ -156,7 +156,9 @@ function PlayState:update(dt)
 
                 -- Maybe spawn a powerup
                 if math.random(10) == 1 and self.powerups['multiball'] == nil and self.powersActive['multiball'] == false then
-                    self.powerups['multiball'] = Powerup(ball.x, ball.y, 1)
+                    self.powerups['multiball'] = Powerup(ball.x, ball.y, MULTIBALL_ID)
+                elseif --[[math.random(10) == 1 and]] self.powerups['unlock'] == nil and self.powersActive['unlock'] == false then
+                    self.powerups['unlock'] = Powerup(ball.x, ball.y, UNLOCK_ID)
                 end
 
                 ball:handleBrickBounce(brick)
@@ -171,14 +173,17 @@ function PlayState:update(dt)
     for k, pu in pairs(self.powerups) do
         if pu:collides(self.paddle) then
 
-            -- activate power and set flag
+            -- set flag that the power is active, remove collectable
             self.powersActive[pu:getType()] = true
             gSounds['powerup']:play()
             self.powerups[pu:getType()] = nil
 
-            for i = 2, MULTIBALL_N, 1 do
-                self.balls[i] = Ball(self.balls[1].x, self.balls[1].y)
-                self.balls[i]:randomiseVelocity()
+            -- if the powerup is multiball, spawn some new ones rn
+            if pu.id == MULTIBALL_ID then
+                for i = 2, MULTIBALL_N, 1 do
+                    self.balls[i] = Ball(self.balls[1].x, self.balls[1].y)
+                    self.balls[i]:randomiseVelocity()
+                end
             end
         end
     end
