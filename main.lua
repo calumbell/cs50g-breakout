@@ -301,6 +301,14 @@ end
 ]]
 function renderScore(score)
     love.graphics.setFont(gFonts['small'])
+    love.graphics.setColor(255, 255, 255, 255)
     love.graphics.print('Score:', VIRTUAL_WIDTH - 60, 5)
     love.graphics.printf(tostring(score), VIRTUAL_WIDTH - 50, 5, 40, 'right')
+end
+
+function renderHint(score)
+    local message = tostring(score)
+    love.graphics.setColor(200, 70, 90, 255)
+    love.graphics.setFont(gFonts['small'])
+    love.graphics.print(message, VIRTUAL_WIDTH - 125, 5)
 end

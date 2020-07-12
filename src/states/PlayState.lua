@@ -263,7 +263,10 @@ function PlayState:render()
 
     renderScore(self.score)
     renderHealth(self.health)
-
+    if self.health < 3 then
+        renderHint(self.recoverPoints - self.score)
+    end
+    
     -- pause text, if paused
     if self.paused then
         love.graphics.setFont(gFonts['large'])
