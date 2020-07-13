@@ -55,20 +55,23 @@ function PlayState:update(dt)
     -- update paddle positions based on velocity
     self.paddle:update(dt)
 
+    -- update ball(s) position based on velocity
     for k, ball in pairs(self.balls) do
         ball:update(dt)
     end
 
-    -- update all pickup positions based on velocity
+    -- update all powerup positions based on velocity
     for k, pu in pairs(self.powerups) do
         pu:update(dt)
+
+        -- remove powerup if it reaches the bottom of the screen
         if pu:isAtBottom() then
             self.powerups[k] = nil
         end
     end
 
+    -- handle ball/paddle collisions
     for k, ball in pairs(self.balls) do    
-        -- detect ball/paddle collisions
         if ball:collides(self.paddle) then
             -- raise ball above paddle in case it goes below it, then reverse dy
             ball.y = self.paddle.y - 8
@@ -91,8 +94,8 @@ function PlayState:update(dt)
         end
     end
 
+    -- handle ball/brick collisions
     for k, ball in pairs(self.balls) do
-        -- detect collision across all bricks with the ball
         for k, brick in pairs(self.bricks) do
 
             -- only check collision if we're in play
@@ -148,19 +151,28 @@ function PlayState:update(dt)
                         })
                     end
 
+                -- handle locked brick collision if we have the unlock powerup
                 elseif brick.locked and self.powersActive['unlock'] then
-                    brick.inPlay = false
+                    brick.locked = false
                     self.score = self.score + 2000
+                    self.powersActive['unlock'] = false
+                    gSounds['brick-unlock']:play()
+
+                -- handle ball collision /w locked brick without powerup
+                else
+                    gSounds['locked-brick-hit']:play()
                 end
+
 
 
                 -- Maybe spawn a powerup
                 if math.random(10) == 1 and self.powerups['multiball'] == nil and self.powersActive['multiball'] == false then
                     self.powerups['multiball'] = Powerup(ball.x, ball.y, MULTIBALL_ID)
-                elseif --[[math.random(10) == 1 and]] self.powerups['unlock'] == nil and self.powersActive['unlock'] == false then
+                elseif math.random(10) == 1 and self.powerups['unlock'] == nil and self.powersActive['unlock'] == false then
                     self.powerups['unlock'] = Powerup(ball.x, ball.y, UNLOCK_ID)
                 end
 
+                -- bounce the ball off of the brick
                 ball:handleBrickBounce(brick)
 
                 -- only allow colliding with one brick, for corners
@@ -169,7 +181,8 @@ function PlayState:update(dt)
         end
     end
 
-    -- detect powerup/paddle collisions
+
+    -- handle powerup/paddle collisions
     for k, pu in pairs(self.powerups) do
         if pu:collides(self.paddle) then
 
@@ -188,8 +201,9 @@ function PlayState:update(dt)
         end
     end
 
+    -- handle ball/bottom stage collision
     for k, ball in pairs(self.balls) do
-        -- if ball goes below bounds, revert to serve state and decrease health
+
         if ball.y >= VIRTUAL_HEIGHT then
 
             -- update health and paddle size
@@ -217,10 +231,12 @@ function PlayState:update(dt)
             end
         end
     end
+
     -- for rendering particle systems
     for k, brick in pairs(self.bricks) do
         brick:update(dt)
     end
+
 
     if love.keyboard.wasPressed('escape') then
         love.event.quit()

@@ -96,6 +96,8 @@ function love.load()
         ['high-score'] = love.audio.newSource('sounds/high_score.wav'),
         ['pause'] = love.audio.newSource('sounds/pause.wav'),
         ['powerup'] = love.audio.newSource('sounds/powerup.wav'),
+        ['brick-unlock'] = love.audio.newSource('sounds/brick-unlock.wav'),
+        ['locked-brick-hit'] = love.audio.newSource('sounds/locked-brick-hit.wav'),
 
         ['music'] = love.audio.newSource('sounds/music.wav')
     }
