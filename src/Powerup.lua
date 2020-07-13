@@ -8,7 +8,7 @@ function Powerup:init(x, y, id)
 	self.x = x
 	self.y = y
 	self.dx = 0
-	self.dy = 25
+	self.dy = math.random(20, 30)
 
 	-- What kind of powerup is instance
 	-- 1: triple ball
@@ -40,8 +40,8 @@ function Powerup:update(dt)
 	self.x = self.x + self.dx * dt
 	self.y = self.y + self.dy * dt
 
-	self.dx = self.dx + 2.0 * dt
-	self.dy = self.dy + 2.0 * dt
+	self.dx = 0
+	self.dy = self.dy + (20.0 * dt)
 end
 
 

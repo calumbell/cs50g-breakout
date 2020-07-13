@@ -154,7 +154,7 @@ function PlayState:update(dt)
                 -- handle locked brick collision if we have the unlock powerup
                 elseif brick.locked and self.powersActive['unlock'] then
                     brick.locked = false
-                    self.score = self.score + 2000
+                    self.score = self.score + 2500
                     self.powersActive['unlock'] = false
                     gSounds['brick-unlock']:play()
 

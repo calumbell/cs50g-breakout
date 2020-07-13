@@ -22,7 +22,7 @@ VIRTUAL_HEIGHT = 243
 PADDLE_SPEED = 200
 
 -- ids for different power ups
-MULTIBALL_ID = 1
+MULTIBALL_ID = 9
 UNLOCK_ID = 10
 
 -- how many balls to spawn when during multiball mode
