@@ -2,7 +2,7 @@
 
 Project 2 of [CS50's Introduction to Games Development](https://cs50.harvard.edu/games/2018/)
 
-[Breakout](https://en.wikipedia.org/wiki/Breakout_(video_game)) (1978) was a classic arcade game created by Atari, here it has been recreated using the  [LÖVE2D](https://love2d.org/) and programmed with Lua.
+[Breakout](https://en.wikipedia.org/wiki/Breakout_(video_game)) (1978) was a classic arcade game created by Atari, here it has been recreated using the  [LÖVE2D] (https://love2d.org/) game engine.
 
 [Full project specification](https://cs50.harvard.edu/games/2018/projects/2/breakout/)
 
