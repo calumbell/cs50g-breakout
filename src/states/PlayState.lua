@@ -168,6 +168,7 @@ function PlayState:update(dt)
                 -- Maybe spawn a powerup
                 if math.random(10) == 1 and self.powerups['multiball'] == nil and self.powersActive['multiball'] == false then
                     self.powerups['multiball'] = Powerup(ball.x, ball.y, MULTIBALL_ID)
+                    
                 elseif math.random(10) == 1 and self.powerups['unlock'] == nil and self.powersActive['unlock'] == false then
                     self.powerups['unlock'] = Powerup(ball.x, ball.y, UNLOCK_ID)
                 end

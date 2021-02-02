@@ -1,17 +1,38 @@
-Breakout
+# Breakout
 
-This project is the second assignment of the CS50 Introduction to Video Game Development:
+Project 2 of [CS50's Introduction to Games Development](https://cs50.harvard.edu/games/2018/)
 
-https://www.edx.org/course/cs50s-introduction-to-game-development
+[Breakout](https://en.wikipedia.org/wiki/Breakout_(video_game)) (1978) was a classic arcade game created by Atari, here it has been recreated using the  [LÖVE2D](https://love2d.org/) and programmed with Lua.
 
-The objective of this activity was to add some new to an implimentation of the classic arcade game Break implimented in Lua for LÖVE 2D. 
+[Full project specification](https://cs50.harvard.edu/games/2018/projects/2/breakout/)
 
-1) A Powerup class for spawning collectables that confer some interesting effects (ie. multi-ball modes).
+## Setup
 
-2) Dynamic resized of the game paddle based on the number of lives that are left.
+First, clone this repository:
 
-3) Locked bricks that require specific power-ups to break.
+```bash
+git clone https://github.com/calumbell/cs50g-breakout
+```
 
-The distribution that I extended for this project can be found at: 
+Install LÖVE2D - instructions can be found [here](https://love2d.org/wiki/Getting_Started)
 
-https://cdn.cs50.net/games/2019/x/assignments/2/assignment2.zip
+To run the game:
+
+```bash
+cd breakout
+love .
+```
+
+## Visuals
+
+You can see this project in action [here](https://youtu.be/lIUvVUry0JY).
+
+<img src="screenshots/breakout-menu-state.png" width=400px>
+<img src="screenshots/breakout-serve-state.png" width=400px>
+<img src="screenshots/breakout-brick-break-particles.png" width=400px>
+
+
+## Requirements
+Breakout was built using the [LÖVE2D](https://love2d.org/) engine.
+
+[Push](https://github.com/Ulydev/push) was used for resolution-handling, and [hump](https://github.com/vrld/hump/blob/master/class.lua) was used for Lua object-orientation.

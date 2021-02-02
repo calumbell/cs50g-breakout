@@ -52,6 +52,7 @@ end
 function Powerup:getType()
 	if self.id == MULTIBALL_ID then
 		return 'multiball'
+		
 	elseif self.id == UNLOCK_ID then
 		return 'unlock'
 	else

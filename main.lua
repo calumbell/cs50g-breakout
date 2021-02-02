@@ -302,12 +302,19 @@ end
     Simply renders the player's score at the top right, with left-side padding
     for the score number.
 ]]
+
 function renderScore(score)
     love.graphics.setFont(gFonts['small'])
     love.graphics.setColor(255, 255, 255, 255)
     love.graphics.print('Score:', VIRTUAL_WIDTH - 60, 5)
     love.graphics.printf(tostring(score), VIRTUAL_WIDTH - 50, 5, 40, 'right')
 end
+
+
+--[[
+    Renders the number of points needed to recover a heart and/or grow the palette.
+    Takes a single argument (what number to render).
+]]
 
 function renderHint(score)
     local message = tostring(score)
